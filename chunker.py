@@ -4,19 +4,9 @@ class Chunker:
         self.overlap = overlap
     
     def chunk(self, text:str) -> list[str]:
-        words = text.split()
         chunks = []
-
-        track = 0
-        chunk = ''
-        for i in range(len(words)):
-            track += 1
-            chunk += words[i]
-            if track == (self.chunk_size + self.overlap):
-                if i != len(words):
-                    i -= self.overlap
-                chunks.append(chunk)
-                track = 0
-                chunk = ''
-
-        return chunks
+        words = text.split()
+        return [
+            " ".join(words[i:i + self.chunk_size])
+            for i in range(0, len(words), self.chunk_size - self.overlap)
+        ]
